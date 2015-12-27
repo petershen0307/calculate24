@@ -4,11 +4,17 @@ from find24 import *
 
 class TestFind24(unittest.TestCase):
     def test_exhaustion(self):
-        self.assertEqual(exhaustion(2, '12'), ['11', '12', '21', '22'])
+        self.assertEqual(exhaustion_exponential(2, '12'), ['11', '12', '21', '22'])
 
-    def test_combine_to_expression(self):
-        self.assertEqual(combine_to_expression('1234', '*-+'), '1*2-3+4')
+    def test_exhaustion_factorial(self):
+        self.assertEqual(exhaustion_factorial('1'), ['1'])
+        self.assertEqual(exhaustion_factorial('12'), ['12', '21'])
+        self.assertEqual(exhaustion_factorial('123'), ['123', '132', '213', '231', '312', '321'])
 
-    def test_generate_all_expressions(self):
-        self.assertEqual(generate_all_expressions(exhaustion(2, '12'), exhaustion(1, '+')),
-                         ['1+1', '1+2', '2+1', '2+2'])
+    def test_calculate_with_postfix_string(self):
+        self.assertEqual(calculate_with_postfix_string('12+'), 3)
+        self.assertEqual(calculate_with_postfix_string('1+2'), None)
+        self.assertEqual(calculate_with_postfix_string('12+3*'), 9)
+        self.assertEqual(calculate_with_postfix_string('12+3*4/'), 3)
+        self.assertEqual(calculate_with_postfix_string('12+34*'), None)
+        self.assertEqual(calculate_with_postfix_string('34*12+32-//'), 4)
