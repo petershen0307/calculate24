@@ -63,7 +63,7 @@ def calculate_with_postfix_string(expression):
     return math.ceil(operand_stack.pop())
 
 
-def find24(operands):
+def calculate24(operands):
     operators = '+-*/'
     operators_combination = exhaustion_exponential(len(operands) - 1, operators)
     component_combination = [operands + operators_ele for operators_ele in operators_combination]
@@ -78,4 +78,4 @@ def find24(operands):
 if '__main__' == __name__:
     print(exhaustion_exponential(4, '1234'))
     print(exhaustion_exponential(3, '+-*/'))
-    find24('1234')
+    calculate24('1234')

@@ -1,5 +1,5 @@
 import unittest
-from find24 import *
+from calculate24 import *
 
 
 class TestFind24(unittest.TestCase):
