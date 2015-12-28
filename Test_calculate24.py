@@ -11,6 +11,11 @@ class TestFind24(unittest.TestCase):
         self.assertEqual(exhaustion_factorial('12'), ['12', '21'])
         self.assertEqual(exhaustion_factorial('123'), ['123', '132', '213', '231', '312', '321'])
 
+    def test_removed_duplicate_string(self):
+        self.assertEqual(removed_duplicate_string(['1123', '1231']), ['1123'])
+        self.assertEqual(removed_duplicate_string(['/*/', '//*']), ['/*/'])
+        self.assertEqual(removed_duplicate_string(['//*', '*//', '-*+', '+*-']), ['//*', '-*+'])
+
     def test_calculate_with_postfix_string(self):
         self.assertEqual(calculate_with_postfix_string('12+'), 3)
         self.assertEqual(calculate_with_postfix_string('1+2'), None)

@@ -7,7 +7,7 @@ def exhaustion_exponential(n, input_string):
         n: (int) how many time should be run
         input_string: (str)
     Returns:
-        set of str
+        list of str
     """
     if 1 == n:
         return input_string
@@ -26,6 +26,23 @@ def exhaustion_factorial(source_string):
     # remove character which position equal index from source_string and put to next recursion
     return [x + y for index, x in enumerate(source_string) for y in
             exhaustion_factorial(''.join([source_string[i] for i in range(len(source_string)) if i != index]))]
+
+
+def removed_duplicate_string(string_list):
+    """
+    Args:
+        string_list: (str)
+    Returns:
+        list of str
+    """
+    non_duplicate_strings = []
+    for string in string_list[:]:
+        non_duplicate_str = ''.join(sorted(string))
+        if non_duplicate_str not in non_duplicate_strings:
+            non_duplicate_strings.append(non_duplicate_str)
+        else:
+            string_list.remove(string)
+    return string_list
 
 
 def calculate_with_postfix_string(expression):
@@ -65,17 +82,25 @@ def calculate_with_postfix_string(expression):
 
 def calculate24(operands):
     operators = '+-*/'
-    operators_combination = exhaustion_exponential(len(operands) - 1, operators)
+    operators_combination = removed_duplicate_string(exhaustion_exponential(len(operands) - 1, operators))
     component_combination = [operands + operators_ele for operators_ele in operators_combination]
-    # print(component_combination)
     operator_combination = map(exhaustion_factorial, component_combination)
+    result_expression = []
     for expression_list in operator_combination:
         for expression in expression_list:
-            if 24 == calculate_with_postfix_string(expression):
-                print(expression, end=', ')
+            if 24 == calculate_with_postfix_string(expression) and expression not in result_expression:
+                result_expression.append(expression)
+    print(result_expression)
 
 
 if '__main__' == __name__:
     print(exhaustion_exponential(4, '1234'))
-    print(exhaustion_exponential(3, '+-*/'))
-    calculate24('1234')
+    x = exhaustion_exponential(2, '+-*/')
+    print(x)
+    y = removed_duplicate_string(x)
+    print(y)
+    z = ['123' + operators_ele for operators_ele in y]
+    print(z)
+    print(list(map(exhaustion_factorial, z)))
+    print(len(list(map(exhaustion_factorial, z))))
+    calculate24('3388')
