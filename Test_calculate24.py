@@ -20,6 +20,6 @@ class TestFind24(unittest.TestCase):
         self.assertEqual(calculate_with_postfix_string('12+'), 3)
         self.assertEqual(calculate_with_postfix_string('1+2'), None)
         self.assertEqual(calculate_with_postfix_string('12+3*'), 9)
-        self.assertEqual(calculate_with_postfix_string('12+3*4/'), 3)
+        self.assertEqual(calculate_with_postfix_string('12+3*4/'), Fraction(9, 4))
         self.assertEqual(calculate_with_postfix_string('12+34*'), None)
         self.assertEqual(calculate_with_postfix_string('34*12+32-//'), 4)

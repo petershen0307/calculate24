@@ -1,4 +1,5 @@
 import math
+from fractions import Fraction
 
 
 def exhaustion_exponential(n, input_string):
@@ -62,7 +63,7 @@ def calculate_with_postfix_string(expression):
     for element in expression:
         try:
             # it is integer
-            operand_stack.append(int(element))
+            operand_stack.append(Fraction(element))
         except ValueError:
             # it is operator
             if len(operand_stack) >= 2:
@@ -77,7 +78,7 @@ def calculate_with_postfix_string(expression):
                 return None
     if len(operand_stack) != 1:
         return None
-    return math.ceil(operand_stack.pop())
+    return operand_stack.pop()
 
 
 def calculate24(operands):
@@ -88,7 +89,7 @@ def calculate24(operands):
     result_expression = []
     for expression_list in operator_combination:
         for expression in expression_list:
-            if 24 == calculate_with_postfix_string(expression) and expression not in result_expression:
+            if Fraction(24) == calculate_with_postfix_string(expression) and expression not in result_expression:
                 result_expression.append(expression)
     print(result_expression)
 
