@@ -80,6 +80,24 @@ def calculate_with_postfix_string(expression):
     return operand_stack.pop()
 
 
+def postfix_to_infix(postfix_expression):
+    operand_stack = []
+    for element in postfix_expression:
+        try:
+            int(element)
+            operand_stack.append(element)
+        except ValueError:
+            if len(operand_stack) >= 2:
+                infix_expression = '(' + operand_stack[-2] + element + operand_stack[-1] + ')'
+                operand_stack = operand_stack[:-2]
+                operand_stack.append(infix_expression)
+            else:
+                raise ValueError('The expression is not postfix.')
+    if len(operand_stack) != 1:
+        raise ValueError('The expression is not postfix.')
+    return operand_stack.pop()
+
+
 def calculate24(operands):
     operators = '+-*/'
     operators_combination = removed_duplicate_string(exhaustion_exponential(len(operands) - 1, operators))
@@ -90,7 +108,7 @@ def calculate24(operands):
         for expression in expression_list:
             if Fraction(24) == calculate_with_postfix_string(expression) and expression not in result_expression:
                 result_expression.append(expression)
-    print(result_expression)
+    return result_expression
 
 
 if '__main__' == __name__:
@@ -103,4 +121,4 @@ if '__main__' == __name__:
     print(z)
     print(list(map(exhaustion_factorial, z)))
     print(len(list(map(exhaustion_factorial, z))))
-    calculate24('3388')
+    print(next(map(postfix_to_infix, calculate24('3388'))))

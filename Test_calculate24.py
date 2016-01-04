@@ -23,3 +23,8 @@ class TestFind24(unittest.TestCase):
         self.assertEqual(calculate_with_postfix_string('12+3*4/'), Fraction(9, 4))
         self.assertEqual(calculate_with_postfix_string('12+34*'), None)
         self.assertEqual(calculate_with_postfix_string('34*12+32-//'), 4)
+
+    def test_postfix_to_infix(self):
+        self.assertRaises(ValueError, postfix_to_infix, '1+2')
+        self.assertEqual(postfix_to_infix('12+'), '(1+2)')
+        self.assertEqual(postfix_to_infix('12+3-4*5/'), '((((1+2)-3)*4)/5)')
