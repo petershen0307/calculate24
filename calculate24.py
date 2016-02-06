@@ -1,17 +1,17 @@
 from fractions import Fraction
 
 
-def exhaustion_exponential(n, input_string):
+def exhaustion_exponential(n, input_value):
     """generate all exponential(n) combination with input_string
     Args:
         n: (int) how many time should be run
-        input_string: (str)
+        input_value: (str) or [[int]]
     Returns:
-        list of str
+        list of str or [[int]]
     """
     if 1 == n:
-        return input_string
-    return [x + y for x in input_string for y in exhaustion_exponential(n - 1, input_string)]
+        return input_value
+    return [x + y for x in input_value for y in exhaustion_exponential(n - 1, input_value)]
 
 
 def exhaustion_factorial(source_string):
@@ -26,6 +26,14 @@ def exhaustion_factorial(source_string):
     # remove character which position equal index from source_string and put to next recursion
     return [x + y for index, x in enumerate(source_string) for y in
             exhaustion_factorial(''.join([source_string[i] for i in range(len(source_string)) if i != index]))]
+
+
+def exhaustion_factorial_int_list(source_list):
+    if 1 == len(source_list):
+        return source_list
+    # remove character which position equal index from source_list and put to next recursion
+    return [x + y for index, x in enumerate(source_list) for y in
+            exhaustion_factorial_int_list([source_list[i] for i in range(len(source_list)) if i != index])]
 
 
 def removed_duplicate_string(string_list):
@@ -85,7 +93,7 @@ def postfix_to_infix(postfix_expression):
     for element in postfix_expression:
         try:
             int(element)
-            operand_stack.append(element)
+            operand_stack.append(str(element))
         except ValueError:
             if len(operand_stack) >= 2:
                 infix_expression = '(' + operand_stack[-2] + element + operand_stack[-1] + ')'
@@ -111,6 +119,19 @@ def calculate24(operands):
     return result_expression
 
 
+def calculate24_int(operands):
+    operators = '+-*/'
+    operators_combination = exhaustion_exponential(len(operands) - 1, operators)
+    component_combination = [operands + [operators_ele] for operators_ele in operators_combination]
+    operator_combination = map(exhaustion_factorial_int_list, component_combination)
+    result_expression = []
+    for expression_list in operator_combination:
+        for expression in expression_list:
+            if Fraction(24) == calculate_with_postfix_string(expression) and expression not in result_expression:
+                result_expression.append(expression)
+    return result_expression
+
+
 if '__main__' == __name__:
     print(exhaustion_exponential(4, '1234'))
     x = exhaustion_exponential(2, '+-*/')
@@ -122,3 +143,4 @@ if '__main__' == __name__:
     print(list(map(exhaustion_factorial, z)))
     print(len(list(map(exhaustion_factorial, z))))
     print(next(map(postfix_to_infix, calculate24('3388'))))
+    print(next(map(postfix_to_infix, calculate24_int([[3], [3], [8], [8]]))))
