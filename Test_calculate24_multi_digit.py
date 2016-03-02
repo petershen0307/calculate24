@@ -4,7 +4,12 @@ from calculate24_multi_digit import *
 
 class TestFind24MultiDigit(unittest.TestCase):
     def test_list_all_exponential_permutation(self):
-        self.assertEqual(list_all_exponential_permutation(1, ['+', '-', '*', '/']), [['+', '-', '*', '/']])
+        self.assertEqual(list_all_exponential_permutation(1, ['+', '-', '*', '/']), [['+'], ['-'], ['*'], ['/']])
+        self.assertEqual(list_all_exponential_permutation(2, ['1', '2']),
+                         [['1', '1'], ['1', '2'], ['2', '1'], ['2', '2']])
+        self.assertEqual(list_all_exponential_permutation(3, ['1', '2']),
+                         [['1', '1', '1'], ['1', '1', '2'], ['1', '2', '1'], ['1', '2', '2'],
+                          ['2', '1', '1'], ['2', '1', '2'], ['2', '2', '1'], ['2', '2', '2']])
 
     def test_list_all_factorial_permutation(self):
         self.assertEqual(list_all_factorial_permutation(['+']), [['+']])

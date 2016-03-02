@@ -5,8 +5,14 @@ def list_all_exponential_permutation(n, inputs):
     # 輸入: 由int + str組成的list
     # 輸出: list of list, 指數排列組合
     if 1 == n:
-        return [inputs]
-    return None
+        return [[x] for x in inputs]
+    final_result = []
+    for element in inputs:
+        results = list_all_exponential_permutation(n-1, inputs)
+        for a_result in results:
+            a_result.insert(0, element)
+        final_result += results
+    return final_result
 
 
 def list_all_factorial_permutation(components):
