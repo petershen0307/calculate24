@@ -17,14 +17,28 @@ class TestFind24(unittest.TestCase):
         self.assertEqual(removed_duplicate_string(['//*', '*//', '-*+', '+*-']), ['//*', '-*+'])
 
     def test_calculate_with_postfix_string(self):
-        self.assertEqual(calculate_with_postfix_string('12+'), 3)
-        self.assertEqual(calculate_with_postfix_string('1+2'), None)
-        self.assertEqual(calculate_with_postfix_string('12+3*'), 9)
-        self.assertEqual(calculate_with_postfix_string('12+3*4/'), Fraction(9, 4))
-        self.assertEqual(calculate_with_postfix_string('12+34*'), None)
-        self.assertEqual(calculate_with_postfix_string('34*12+32-//'), 4)
+        self.assertEqual(calculate_with_postfix('12+'), 3)
+        self.assertEqual(calculate_with_postfix('1+2'), None)
+        self.assertEqual(calculate_with_postfix('12+3*'), 9)
+        self.assertEqual(calculate_with_postfix('12+3*4/'), Fraction(9, 4))
+        self.assertEqual(calculate_with_postfix('12+34*'), None)
+        self.assertEqual(calculate_with_postfix('34*12+32-//'), 4)
+
+    def test_calculate_with_postfix_int_str_list(self):
+        self.assertEqual(calculate_with_postfix([11, 22, '+']), 33)
+        self.assertEqual(calculate_with_postfix([1, '+', 2]), None)
+        self.assertEqual(calculate_with_postfix([1, 2, '+', 3, '*']), 9)
+        self.assertEqual(calculate_with_postfix([1, 2, '+', 3, '*', 4, '/']), Fraction(9, 4))
+        self.assertEqual(calculate_with_postfix([1, 2, '+', 3, 4, '*']), None)
+        self.assertEqual(calculate_with_postfix([3, 4, '*', 1, 2, '+', 3, 2, '-', '/', '/']), 4)
 
     def test_postfix_to_infix(self):
         self.assertRaises(ValueError, postfix_to_infix, '1+2')
         self.assertEqual(postfix_to_infix('12+'), '(1+2)')
         self.assertEqual(postfix_to_infix('12+3-4*5/'), '((((1+2)-3)*4)/5)')
+
+    def test_postfix_to_infix_int_str_list(self):
+        self.assertRaises(ValueError, postfix_to_infix, [1, '+', 2])
+        self.assertEqual(postfix_to_infix([1, 2, '+']), '(1+2)')
+        self.assertEqual(postfix_to_infix([1, 2, '+', 3, '-', 4, '*', 5, '/']), '((((1+2)-3)*4)/5)')
+        self.assertEqual(postfix_to_infix([15, 23, '+']), '(15+23)')

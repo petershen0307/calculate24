@@ -45,10 +45,10 @@ def removed_duplicate_string(string_list):
     return string_list
 
 
-def calculate_with_postfix_string(expression):
+def calculate_with_postfix(expression):
     """calculate with postfix string
     Args:
-        expression: (str) format is postfix
+        expression: (list of str, int) format is postfix
     Returns:
         (int) result of input expression, floating result will ceil to integer
     Raises:
@@ -81,6 +81,12 @@ def calculate_with_postfix_string(expression):
 
 
 def postfix_to_infix(postfix_expression):
+    """calculate with postfix string
+    Args:
+        postfix_expression: (list of str, int) format is postfix
+    Returns:
+        infix expression type is str
+    """
     operand_stack = []
     for element in postfix_expression:
         try:
@@ -88,7 +94,7 @@ def postfix_to_infix(postfix_expression):
             operand_stack.append(element)
         except ValueError:
             if len(operand_stack) >= 2:
-                infix_expression = '(' + operand_stack[-2] + element + operand_stack[-1] + ')'
+                infix_expression = '(' + str(operand_stack[-2]) + element + str(operand_stack[-1]) + ')'
                 operand_stack = operand_stack[:-2]
                 operand_stack.append(infix_expression)
             else:
@@ -106,7 +112,7 @@ def calculate24(operands):
     result_expression = []
     for expression_list in operator_combination:
         for expression in expression_list:
-            if Fraction(24) == calculate_with_postfix_string(expression) and expression not in result_expression:
+            if Fraction(24) == calculate_with_postfix(expression) and expression not in result_expression:
                 result_expression.append(expression)
     return result_expression
 
