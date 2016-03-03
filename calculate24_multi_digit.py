@@ -1,4 +1,6 @@
 from fractions import Fraction
+from calculate24 import calculate_with_postfix
+from calculate24 import postfix_to_infix
 
 
 def list_all_exponential_permutation(n, inputs):
@@ -8,7 +10,7 @@ def list_all_exponential_permutation(n, inputs):
         return [[x] for x in inputs]
     final_result = []
     for element in inputs:
-        results = list_all_exponential_permutation(n-1, inputs)
+        results = list_all_exponential_permutation(n - 1, inputs)
         for a_result in results:
             a_result.insert(0, element)
         final_result += results
@@ -34,5 +36,20 @@ def list_all_factorial_permutation(components):
     return final_result
 
 
+def calculate24(operands):
+    operators = '+-*/'
+    operators_combination = list_all_exponential_permutation(len(operands) - 1, operators)
+    component_combination = [operands + operators_ele for operators_ele in operators_combination]
+    operator_combination = map(list_all_factorial_permutation, component_combination)
+    result_expression = []
+    for expression_list in operator_combination:
+        for expression in expression_list:
+            if Fraction(24) == calculate_with_postfix(expression) and expression not in result_expression:
+                result_expression.append(expression)
+    return result_expression
+
 if '__main__' == __name__:
     print(list_all_factorial_permutation([11, 22, '3', '+']))
+    print(calculate_with_postfix([1, 2, 3, 4, '*', '*', '*']))
+    print(list(map(postfix_to_infix, calculate24([3, 3, 8, 8]))))
+    # print(list(map(postfix_to_infix, calculate24([1, 2, 3, 4]))))
